@@ -102,9 +102,24 @@ const Products = (props) => {
   const addToCart = (e) => {
     let name = e.target.name;
     let item = items.filter((item) => item.name == name);
-    console.log(`add to Cart ${JSON.stringify(item)}`);
-    setCart([...cart, ...item]);
-    //doFetch(query);
+    let instock = item[0].instock;
+    if (instock > 0) {
+      console.log(`add to Cart ${JSON.stringify(item)}`);
+
+      console.log(`instock: ${instock}`);
+      let newitems = items.map((item) => {
+        if (item.name == name) {
+          item.instock = item.instock - 1;
+        }
+        return item;
+      });
+      setItems(newitems);
+      setCart([...cart, ...item]);
+      //doFetch(query);
+    }
+    else {
+      window.alert("Sorry mate out of stock.");
+    }
   };
   const deleteCartItem = (index) => {
     let newCart = cart.filter((item, i) => index != i);
@@ -120,7 +135,7 @@ const Products = (props) => {
       <li key={index}>
         <Image src={photos[index % 4]} width={70} roundedCircle></Image>
         <Button variant="primary" size="large">
-          {item.name}:{item.cost}
+          {item.name} ${item.cost}, Inventory: {item.instock}
         </Button>
         <input name={item.name} type="submit" onClick={addToCart}></input>
       </li>
@@ -167,14 +182,10 @@ const Products = (props) => {
   };
   // TODO: implement the restockProducts function
   const restockProducts = (url) => {
-    console.log('url in restock: ' + url);
-    console.log('bill');
     doFetch(url);
-    console.log(JSON.stringify(data.data));
     let newItems = data.data.map((item) => {
       let item_attributes = item['attributes'];
       let { name, country, cost, instock } = item_attributes;
-      console.log('bill' + JSON.stringify(item_attributes));
       return { name, country, cost, instock };
     });
     console.log('newItems:' + JSON.stringify(newItems));
