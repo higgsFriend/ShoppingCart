@@ -1,2 +1,5 @@
 # ShoppingCart
 Demonstration of using Strapi and restocking a shopping cart with Node React
+<p>Assues that you have a strapi DB running at localhost:1337 and 'products' with the form of:</p>
+{"data":[{"id":1,"attributes":{"name":"apples","country":"italy","cost":3,"instock":10,"createdAt":"2022-03-12T12:44:11.747Z","updatedAt":"2022-03-12T12:44:19.444Z","publishedAt":"2022-03-12T12:44:19.441Z"}},{"id":2,"attributes":{"name":"oranges","country":"spain","cost":4,"instock":3,"createdAt":"2022-03-12T12:44:59.911Z","updatedAt":"2022-03-12T12:45:05.251Z","publishedAt":"2022-03-12T12:45:05.249Z"}},{"id":3,"attributes":{"name":"beans","country":"USA","cost":2,"instock":5,"createdAt":"2022-03-12T12:45:29.737Z","updatedAt":"2022-03-12T12:45:30.620Z","publishedAt":"2022-03-12T12:45:30.612Z"}},{"id":4,"attributes":{"name":"cabbage","country":"USA","cost":1,"instock":8,"createdAt":"2022-03-12T12:46:01.642Z","updatedAt":"2022-03-12T12:46:02.476Z","publishedAt":"2022-03-12T12:46:02.474Z"}}],"meta":{"pagination":{"page":1,"pageSize":25,"pageCount":1,"total":4}}}
+  
