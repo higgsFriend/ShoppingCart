@@ -1,9 +1,9 @@
 // simulate getting products from DataBase
 const products = [
-  { name: "Apples_:", country: "Italy", cost: 3, instock: 10 },
-  { name: "Oranges:", country: "Spain", cost: 4, instock: 3 },
-  { name: "Beans__:", country: "USA", cost: 2, instock: 5 },
-  { name: "Cabbage:", country: "USA", cost: 1, instock: 8 },
+  { name: "apples", country: "Italy", cost: 3, instock: 10 },
+  { name: "oranges", country: "Spain", cost: 4, instock: 3 },
+  { name: "beans", country: "USA", cost: 2, instock: 5 },
+  { name: "cabbage", country: "USA", cost: 1, instock: 8 },
 ];
 //=========Cart=============
 const Cart = (props) => {
@@ -122,8 +122,17 @@ const Products = (props) => {
     }
   };
   const deleteCartItem = (index) => {
+    let removedItemName = cart[index].name;
     let newCart = cart.filter((item, i) => index != i);
+    console.log(`Add this back to inventory: ${removedItemName}`);
+    let newItems = items.map((item) => {
+      if (item.name == removedItemName) {
+        item.instock = item.instock + 1;
+      }
+      return item;
+    });
     setCart(newCart);
+    setItems(newItems);
   };
   const photos = ["apple.png", "orange.png", "beans.png", "cabbage.png"];
 
@@ -183,13 +192,31 @@ const Products = (props) => {
   // TODO: implement the restockProducts function
   const restockProducts = (url) => {
     doFetch(url);
-    let newItems = data.data.map((item) => {
+    let newStockItems = data.data.map((item) => {
       let item_attributes = item['attributes'];
       let { name, country, cost, instock } = item_attributes;
       return { name, country, cost, instock };
     });
+    console.log(`New items: ${JSON.stringify(newStockItems)}`);
+    console.log(`Old items: ${JSON.stringify(items)}`);
+    let addStock = [];
+    // Loop through current innventory and update it
+    let newItems = items.map((item)=>{
+      console.log(`*** ${item.name}, current stock is ${item.instock}`);
+      addStock = newStockItems.filter((stockItem) => {
+        console.log(`Restocking check: ${stockItem.name} ${typeof stockItem.name} vs ${item.name} ${typeof item.name}`);
+        if (stockItem.name == item.name) {
+          console.log(`Hell yeah! ${stockItem.name} is a match!  Add ${stockItem.instock} items.`);
+          return stockItem;
+        }
+      });
+      console.log(`** ${item.name}:${item.instock} + ${JSON.stringify(addStock[0])}`);
+
+      item.instock = item.instock + addStock[0].instock;
+      return item;
+    });
     console.log('newItems:' + JSON.stringify(newItems));
-    setItems([...items, ...newItems]);
+    setItems(newItems);
 
   };
 
